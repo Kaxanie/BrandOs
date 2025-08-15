@@ -1,0 +1,16 @@
+{
+  "name": "branding-os",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "backend",
+    "app"
+  ],
+  "packageManager": "pnpm@9.0.0",
+  "scripts": {
+    "build": "pnpm -C backend build",
+    "dev:backend": "pnpm -C backend dev",
+    "test": "pnpm -C backend test"
+  }
+}
+
