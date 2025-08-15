@@ -40,6 +40,8 @@ create table if not exists usage_monthly(
   primary key (org_id,y,m)
 );
 
+create index if not exists idx_usage_monthly_org_date on usage_monthly(org_id, y, m);
+
 create table if not exists gen_cache(
   org_id uuid not null references orgs(id),
   key_sha256 char(64) not null,
@@ -47,6 +49,8 @@ create table if not exists gen_cache(
   created_at timestamp not null default now(),
   primary key (org_id, key_sha256)
 );
+
+create index if not exists idx_gen_cache_expiry on gen_cache(created_at);
 
 create table if not exists runs(
   id uuid primary key,
@@ -70,4 +74,13 @@ create table if not exists pay_intents(
   status text not null,
   created_at timestamp not null default now()
 );
+
+create table if not exists rate_limits(
+  id uuid primary key,
+  org_id uuid not null references orgs(id),
+  endpoint text not null,
+  created_at timestamp not null default now()
+);
+
+create index if not exists idx_wallet_ledger_org_date on wallet_ledger(org_id, created_at);
 
